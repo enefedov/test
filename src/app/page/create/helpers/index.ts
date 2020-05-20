@@ -1,16 +1,16 @@
 import * as Yup from 'yup'
 
 const initialValues = {
-    taskName: '',
-    name: '',
+    user: '',
+    title: '',
     status: false,
 }
 
 const shape = {
-    taskName: Yup
+    user: Yup
         .string()
         .required(),
-    name: Yup
+    title: Yup
         .string()
         .required(),
     status: Yup

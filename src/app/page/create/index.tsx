@@ -5,15 +5,22 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import axios from 'axios'
 
 interface Example {
-    taskName: string;
-    name: string;
+    user: string;
+    title: string;
     status: boolean;
 }
 
 const Create = () => {
-    const onSubmit = (value: any) => console.log(value);
+    const onSubmit = (value: any) => axios({
+                                        method: 'post',
+                                        url: 'http://localhost:5000/api/create/',
+                                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                                        params: value
+                                    })
+
     const [checked, setChecked] = React.useState(false);
     const handleChange = () => {setChecked(!checked); formik.setFieldValue('status', !checked)};
     const formik = useFormik<Example>({onSubmit, initialValues, validationSchema})
@@ -30,16 +37,16 @@ const Create = () => {
                     margin: '15% auto',
                 }}>
                 <TextField
-                name='taskName' 
-                label="Задача" 
-                variant="outlined" 
-                onChange={(e) => formik.setFieldValue('taskName', e.target.value)}
-                style={{marginBottom: '15px'}}/>
+                    name='user' 
+                    label="Задача" 
+                    variant="outlined" 
+                    onChange={(e) => formik.setFieldValue('user', e.target.value)}
+                    style={{marginBottom: '15px'}}/>
                 <TextField
-                    name='taskName' 
+                    name='title' 
                     label="Исполнитель" 
                     variant="outlined" 
-                    onChange={(e) => formik.setFieldValue('name', e.target.value)}
+                    onChange={(e) => formik.setFieldValue('title', e.target.value)}
                     style={{marginBottom: '15px'}}/>
                 <FormControlLabel
                     control={

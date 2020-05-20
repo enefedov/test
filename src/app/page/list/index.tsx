@@ -1,8 +1,19 @@
-import React from 'react'
+import React, { Component } from 'react'
 import ListWrapper from '../../components/ListWrapper'
+import {connect} from 'react-redux';
+import {setYear} from '../../store/action'
+import axios from 'axios';
 
-const List = () => {
+class List extends Component<{setYearFunction: (t: any) => void}> {
 
+    async componentWillMount() {
+        const {setYearFunction} = this.props;
+        const {data} = await axios.get('http://localhost:5000/api/list');
+        setYearFunction(data);  
+    }
+
+    render() {
+        console.log(this.props);
     return (
         <div style={{
             maxWidth: '1100px',
@@ -14,6 +25,19 @@ const List = () => {
             <ListWrapper />
         </div>
     )
+    }
 }
 
-export default List;
+const mapStateToProps = (state: any) => {
+    return {...state}
+}
+
+const mapDispatchToProps = (dispatch: (d: any) => void) => {
+    return {
+        setYearFunction: (year: any) => {
+            dispatch(setYear(year))
+        }
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(List);
